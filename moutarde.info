@@ -2,3 +2,5 @@ name = Moutarde
 description = Add some mustard :)
 package = Moutarde
 core = 6.x
+dependencies[] = views
+dependencies[] = jcarousel

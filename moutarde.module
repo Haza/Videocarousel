@@ -1,0 +1,103 @@
+<?php
+// $Id$
+/**
+ * @file
+ * Provides a Views style plugin for jQuery jcarousel.
+ */
+
+/**
+ * Implementation of hook_views_api().
+ */
+function moutarde_views_api() {
+  return array('api' => 2);
+}
+
+/**
+ * Themes the Views Carousel View.
+ */
+function theme_moutarde_view($view, $options = array(), $rows = array()) {
+  // Remove the skin and skin path from the options.
+  $skin = $options['skin'];
+  $path = ($skin == 'custom') ? $options['skin_path'] : NULL;
+  unset($options['skin'], $options['skin_path']);
+
+  // Remove any empty options and convert any numbers to float values.
+  foreach ($options as $key => $value) {
+    if (is_numeric($value)) {
+      $options[$key] = (float)$value;
+    }
+    if (empty($value)) {
+      unset($options[$key]);
+    }
+  }
+
+  // Use jCarousel to create the carousel.
+  
+  return theme('moutarde', $rows, $options, $skin, $path, 'moutarde-'. $view->name .'-'. $view->current_display);
+}
+
+
+/**
+ * Implementation of hook_theme().
+ */
+function moutarde_theme($existing, $type, $theme, $path) {
+
+    return array(
+    'moutarde' => array(
+      'arguments' => array(
+        'items' => array(),
+        'options' => array(),
+        'skin' => 'tango',
+        'skin_path' => NULL,
+        'id' => 'moutarde',
+      ),
+    ),
+  );
+  drupal_set_message("<pre>".print_r($existing,true)."</pre>");
+  return array();
+}
+
+/**
+ * Creates a jCarousel element on the page.
+ * @param $items
+ *   The items to appear in the carousel.
+ * @param $options
+ *   (optional) The arguments to apply to the selected element when
+ *   creating the jCarousel. The arguments are passed through as
+ *   an associative array using the jCarousel configuration options:
+ *   http://sorgalla.com/projects/jcarousel/#Configuration
+ * @param $skin
+ *   (optional) Either "tango", "ie7", or another name for your own
+ *   skin. If you don't want to name your skin, use NULL. This skin
+ *   name will be added as a class the the jCarousel element.
+ *   Example: jcarousel-skin-NAME.  Note that the skin will not be
+ *   added if you do not pass a $selector.
+ * @param $skin_path
+ *   (optional) If you're using a custom skin, this is where you pass
+ *   the relative path to the skin's CSS file.
+ * @param $id
+ *   (optional) The name of the jCarousel element.
+ */
+function theme_moutarde($items = array(), $options = array(), $skin = 'tango', $skin_path = NULL, $id = 'moutarde') {
+  
+    drupal_add_js(drupal_get_path('module', 'moutarde') .'/plop.js');
+  $name = form_clean_id($id);
+  jcarousel_add('#'. $name, $options, $skin, $skin_path);
+   $output = '<div style="height: 300px; width: 300px; background-color: red">';
+   $i=0;
+   foreach ($items as $item) {
+             $i++;
+            $output .= '<span style="display:none" id=carrou_'.$i.' class="all_carrou">'. $item .'</span>';
+          }
+         
+        $output .= '</div>';
+  $output .= '<ul id="'. $name .'" class="jcarousel-skin-'. $skin .'">';
+  $i=0;
+  foreach ($items as $item) {
+    $i++;
+    $output .= '<li onclick="javascript:show('.$i.')">plop'. $item .'</li>';
+  }
+  $output .= '</ul>';
+  return $output;
+}
+
