@@ -1,5 +1,4 @@
 <?php
-// $Id$
 /**
  * @file
  * Provides a Views style plugin for jQuery jcarousel.
