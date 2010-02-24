@@ -2,7 +2,7 @@
 // $Id: moutarde_style_plugin.inc,v 1.2.2.2 2009/11/05 20:29:50 robloach Exp $
 /**
  * @file
- *  Provide the views carousel plugin object with default options and form.
+ *  Provide the amazing moutarde views carousel plugin object with default options and form.
  */
 
 /**
