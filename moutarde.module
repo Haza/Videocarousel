@@ -31,6 +31,7 @@ function theme_moutarde_view($view, $options = array(), $rows = array()) {
   }
 
   // Use jCarousel to create the carousel.
+
   
   return theme('moutarde', $rows, $options, $skin, $path, 'moutarde-'. $view->name .'-'. $view->current_display);
 }
@@ -50,10 +51,10 @@ function moutarde_theme($existing, $type, $theme, $path) {
         'skin_path' => NULL,
         'id' => 'moutarde',
       ),
+        'template' => 'moutarde',
     ),
   );
-  drupal_set_message("<pre>".print_r($existing,true)."</pre>");
-  return array();
+
 }
 
 /**
@@ -77,6 +78,7 @@ function moutarde_theme($existing, $type, $theme, $path) {
  * @param $id
  *   (optional) The name of the jCarousel element.
  */
+/*
 function theme_moutarde($items = array(), $options = array(), $skin = 'tango', $skin_path = NULL, $id = 'moutarde') {
   
     drupal_add_js(drupal_get_path('module', 'moutarde') .'/plop.js');
@@ -99,4 +101,42 @@ function theme_moutarde($items = array(), $options = array(), $skin = 'tango', $
   $output .= '</ul>';
   return $output;
 }
+*/
 
+
+/**
+ * Process variables for moutarde.tpl.php.
+ *
+ *
+ *
+ */
+function template_preprocess_moutarde(&$vars) {
+  drupal_add_js(drupal_get_path('module', 'moutarde') .'/plop.js');
+
+
+  $options = $vars['options'];
+  $skin = $vars['skin'];
+  $skin_path = $vars['skin_path'];
+  $id = $vars['id'];
+
+  $name = form_clean_id($id);
+  jcarousel_add('#'. $name, $options, $skin, $skin_path);
+
+  
+  $i = 0;
+  
+  $jq_container = '<div style="height: 300px; width: 300px; background-color: red">';
+  $jq_listing = '<ul id="'. $name .'" class="jcarousel-skin-'. $vars['skin'] .'">';
+  $i=0;
+  foreach ($vars['items'] as $item) {
+    $i++;
+    $jq_container .= '<span style="display:none" id=carrou_'.$i.' class="all_carrou">'. $item .'</span>';
+    $jq_listing .= '<li onclick="javascript:show('.$i.')">plop'. $item .'</li>';
+  }
+  $jq_container .= '</div>';
+  $jq_listing .= '</ul>';
+  $vars['jq_container'] = $jq_container;
+  $vars['jq_listing'] = $jq_listing;
+       
+
+}
