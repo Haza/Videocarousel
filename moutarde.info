@@ -4,3 +4,4 @@ package = Moutarde
 core = 6.x
 dependencies[] = views
 dependencies[] = jcarousel
+dependencies[] = emfield
