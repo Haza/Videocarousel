@@ -1,0 +1,139 @@
+<?php
+/**
+ * @file
+ * Provides a Views style plugin for jQuery jcarousel.
+ */
+
+/**
+ * Implementation of hook_views_api().
+ */
+function videocarousel_views_api() {
+  return array('api' => 2);
+}
+
+/**
+ * Themes the Views Carousel View.
+ */
+function theme_videocarousel_view($view, $options = array(), $rows = array()) {
+  // Remove the skin and skin path from the options.
+  $skin = $options['skin'];
+  $path = ($skin == 'custom') ? $options['skin_path'] : NULL;
+  unset($options['skin'], $options['skin_path']);
+
+  // Remove any empty options and convert any numbers to float values.
+  foreach ($options as $key => $value) {
+    if (is_numeric($value)) {
+      $options[$key] = (float)$value;
+    }
+    if (empty($value)) {
+      unset($options[$key]);
+    }
+  }
+
+  // Use jCarousel to create the carousel.
+
+  
+  return theme('videocarousel', $rows, $options, $skin, $path, 'videocarousel-'. $view->name .'-'. $view->current_display, $view);
+}
+
+
+/**
+ * Implementation of hook_theme().
+ */
+function videocarousel_theme($existing, $type, $theme, $path, $view) {
+
+    return array(
+    'videocarousel' => array(
+      'arguments' => array(
+        'items' => array(),
+        'options' => array(),
+        'skin' => 'tango',
+        'skin_path' => NULL,
+        'id' => 'videocarousel',
+        'view' => array($view),
+      ),
+        'template' => 'videocarousel',
+    ),
+  );
+
+}
+
+
+/**
+ * Process variables for videocarousel.tpl.php.
+ *
+ *
+ *
+ */
+function template_preprocess_videocarousel(&$vars) {
+  drupal_add_js(drupal_get_path('module', 'videocarousel') .'/plop.js');
+
+//dsm($vars);
+  $options = $vars['options'];
+  $skin = $vars['skin'];
+  $skin_path = $vars['skin_path'];
+  $id = $vars['id'];
+
+  // add the caroussel
+  $name = form_clean_id($id);
+  jcarousel_add('#'. $name, $options, $skin, $skin_path);
+
+  // begin our loop
+  $i = 0;
+  $jq_container = '<div style="height: 300px; width: 300px; background-color: red">';
+  $jq_listing = '<ul id="'. $name .'" class="jcarousel-skin-'. $vars['skin'] .'">';
+
+  //dsm($vars);
+  $i=0;
+  $tab = array();
+  foreach ($vars['view']->result as $view_item) {
+    $i++;
+    $tab[$i] = _videocarousel_extract_video($view_item->node_data_field_emvideo_field_emvideo_embed) ? _videocarousel_extract_video($view_item->node_data_field_emvideo_field_emvideo_embed) : "0";
+    //dsm($tab);
+  }
+
+  $i=0;
+  foreach ($vars['items'] as $item) {
+    $i++;
+    $jq_container .= '<span style="display:none" id=carrou_'.$i.' class="all_carrou">'. $tab[$i] .'</span>';
+    $jq_listing .= '<li onclick="javascript:show('.$i.')">'. $item .'</li>';
+  }
+  $jq_container .= '</div>';
+  $jq_listing .= '</ul>';
+  $vars['jq_container'] = $jq_container;
+  $vars['jq_listing'] = $jq_listing;
+       
+}
+
+/**
+ * The is a quick hack to extract video information for comments without
+ * rewriting all of emvideo.module.
+ */
+function _videocarousel_extract_video($input) {
+  $width = variable_get('emvideo_default_video_width', EMVIDEO_DEFAULT_VIDEO_WIDTH);
+  $height = variable_get('emvideo_default_video_height', EMVIDEO_DEFAULT_VIDEO_HEIGHT);
+  $autoplay = TRUE;
+
+  if ($code = emfield_include_invoke('emvideo', 'dailymotion', 'extract', $input)) {
+    return theme_emvideo_dailymotion_flash($code, $width, $height, $autoplay);
+  }
+
+  $regexes = emfield_include_invoke('emvideo', 'youtube', 'extract');
+  $matches = NULL;
+  foreach ($regexes as $regex) {
+    if (preg_match($regex, $input, $matches)) {
+      return theme_emvideo_youtube_flash($matches[1], $width, $height, $autoplay);
+    }
+  }
+
+  $regexes = emfield_include_invoke('emvideo', 'vimeo', 'extract');
+  $matches = NULL;
+  foreach ($regexes as $regex) {
+    if (preg_match($regex, $input, $matches)) {
+      return theme_emvideo_vimeo_flash($matches[1], $width, $height, $autoplay);
+    }
+  }
+
+  return FALSE;
+
+}

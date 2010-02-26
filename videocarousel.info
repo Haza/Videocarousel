@@ -1,0 +1,7 @@
+name = Video carousel
+description = Provide a Video Carousel
+package = videocarousel
+core = 6.x
+dependencies[] = views
+dependencies[] = jcarousel
+dependencies[] = emfield
