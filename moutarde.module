@@ -119,12 +119,12 @@ function template_preprocess_moutarde(&$vars) {
   $skin_path = $vars['skin_path'];
   $id = $vars['id'];
 
+  // add the caroussel
   $name = form_clean_id($id);
   jcarousel_add('#'. $name, $options, $skin, $skin_path);
 
-  
+  // begin our loop
   $i = 0;
-  
   $jq_container = '<div style="height: 300px; width: 300px; background-color: red">';
   $jq_listing = '<ul id="'. $name .'" class="jcarousel-skin-'. $vars['skin'] .'">';
   $i=0;
@@ -138,5 +138,4 @@ function template_preprocess_moutarde(&$vars) {
   $vars['jq_container'] = $jq_container;
   $vars['jq_listing'] = $jq_listing;
        
-
 }
