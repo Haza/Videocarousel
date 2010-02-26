@@ -67,7 +67,7 @@ function videocarousel_theme($existing, $type, $theme, $path, $view) {
  */
 function template_preprocess_videocarousel(&$vars) {
   drupal_add_js(drupal_get_path('module', 'videocarousel') .'/plop.js');
-
+  drupal_add_css(drupal_get_path('module', 'videocarousel') .'/videocarousel.css');
 //dsm($vars);
   $options = $vars['options'];
   $skin = $vars['skin'];
@@ -77,12 +77,13 @@ function template_preprocess_videocarousel(&$vars) {
   // add the caroussel
   $name = form_clean_id($id);
   jcarousel_add('#'. $name, $options, $skin, $skin_path);
-
+  $vars['name'] = $name;
   // begin our loop
   $i = 0;
-  $jq_container = '<div style="height: 300px; width: 300px; background-color: red">';
-  $jq_listing = '<ul id="'. $name .'" class="jcarousel-skin-'. $vars['skin'] .'">';
-
+  //$jq_container = '<div style="height: 300px; width: 300px; background-color: red">';
+  //$jq_listing = '<ul id="'. $name .'" class="jcarousel-skin-'. $vars['skin'] .'">';
+  $jq_container = null;
+  $jq_listing = null;
   //dsm($vars);
   $i=0;
   $tab = array();
@@ -98,8 +99,8 @@ function template_preprocess_videocarousel(&$vars) {
     $jq_container .= '<span style="display:none" id=carrou_'.$i.' class="all_carrou">'. $tab[$i] .'</span>';
     $jq_listing .= '<li onclick="javascript:show('.$i.')">'. $item .'</li>';
   }
-  $jq_container .= '</div>';
-  $jq_listing .= '</ul>';
+  //$jq_container .= '</div>';
+  //$jq_listing .= '</ul>';
   $vars['jq_container'] = $jq_container;
   $vars['jq_listing'] = $jq_listing;
        

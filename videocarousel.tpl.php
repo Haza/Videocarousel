@@ -1,11 +1,7 @@
-<?php
-/*
- * Displaying
- *
- * @TODO doc :)
- */
+<div class="videocarousel-container">
+  <?php  print $jq_container; ?>
+</div>
 
-
-  print $jq_container;
-  print $jq_listing;
-?>
+<ul id="<?php print $name; ?>" class="jcarousel-skin-<?php print $skin; ?>">
+  <?php print $jq_listing; ?>
+</ul>
