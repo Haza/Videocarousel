@@ -4,12 +4,18 @@
  * Provides a Views style plugin for jQuery jcarousel.
  */
 
+
 /**
  * Implementation of hook_views_api().
  */
 function videocarousel_views_api() {
-  return array('api' => 2);
+  return array(
+    'api' => 2,
+    'path' => drupal_get_path('module', 'videocarousel'),
+    //'path' => drupal_get_path('module', 'videocarousel') . '/includes',
+  );
 }
+
 
 /**
  * Themes the Views Carousel View.
