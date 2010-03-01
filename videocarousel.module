@@ -110,7 +110,13 @@ function template_preprocess_videocarousel(&$vars) {
   //dsm($vars);
   foreach ($vars['items'] as $item) {
     $i++;
-    $jq_container .= '<span style="display:none" id="videocarousel-item-'.$i.'-main" class="videocarousel-video-container">'. $tab[$i] .'</span>';
+    if ($i == 1) {
+      $display = "display: block;";
+    }
+    else {
+      $display = "display: none;";
+    }
+    $jq_container .= '<div style="'.$display.'" id="videocarousel-item-'.$i.'-main" class="videocarousel-video-container">'. $tab[$i] .'</div>';
     $jq_listing .= '<li id="videocarousel-item-'.$i.'" class="videocarousel-item">'. $item .'</li>';
   }
   //$jq_container .= '</div>';
