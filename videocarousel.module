@@ -1,9 +1,15 @@
 <?php
+
 /**
  * @file
- * Provides a Views style plugin for jQuery jcarousel.
+ * Embedded Video Field provider file for france24 gallery rotator.
  */
 
+function videocarousel_emfield_providers($module, $provider = NULL) {
+  if ($module == 'emvideo') {
+    return drupal_system_listing(".inc", drupal_get_path('module', 'videocarousel') ."/providers", 'name', 0);
+  }
+}
 
 /**
  * Implementation of hook_views_api().
@@ -73,7 +79,7 @@ function videocarousel_theme($existing, $type, $theme, $path) {
  *
  */
 function template_preprocess_videocarousel(&$vars) {
-  //dsm($vars);
+  //dsm($vars['view']);
   drupal_add_js(drupal_get_path('module', 'videocarousel') .'/plop.js');
   drupal_add_css(drupal_get_path('module', 'videocarousel') .'/videocarousel.css');
 
