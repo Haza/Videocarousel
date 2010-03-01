@@ -79,7 +79,7 @@ function videocarousel_theme($existing, $type, $theme, $path) {
  *
  */
 function template_preprocess_videocarousel(&$vars) {
-  //dsm($vars['view']);
+  
   drupal_add_js(drupal_get_path('module', 'videocarousel') .'/videocarousel.js');
   drupal_add_css(drupal_get_path('module', 'videocarousel') .'/videocarousel.css');
 
@@ -97,13 +97,20 @@ function template_preprocess_videocarousel(&$vars) {
   $i = 0;
   $jq_container = null;
   $jq_listing = null;
-
+  $jq_body = null;
 
   $i=0;
   $tab = array();
+  $title = array();
+  $body = array();
+  //dsm($vars);
+
   foreach ($vars['view']->style_plugin->rendered_fields as $view_item) {
     $i++;
     $tab[$i] = $view_item['field_emvideo_embed'];
+    $title[$i] = $view_item['title'];
+    $body[$i] = $view_item['body'];
+
   }
 
   $i=0;
@@ -118,10 +125,12 @@ function template_preprocess_videocarousel(&$vars) {
     }
     $jq_container .= '<div style="'.$display.'" id="videocarousel-item-'.$i.'-main" class="videocarousel-video-container">'. $tab[$i] .'</div>';
     $jq_listing .= '<li id="videocarousel-item-'.$i.'" class="videocarousel-item">'. $item .'</li>';
+    $jq_body .= '<h2 id="videocarousel-item-'.$i.'-title" style="'.$display.'" class="videocarousel-item-title">'. $title[$i] .'</h2><div id="videocarousel-item-'.$i.'-body" style="'.$display.'" class="videocarousel-item-body">'. $body[$i] .'</div>';
   }
   //$jq_container .= '</div>';
   //$jq_listing .= '</ul>';
   $vars['jq_container'] = $jq_container;
   $vars['jq_listing'] = $jq_listing;
+  $vars['jq_body'] = $jq_body;
        
-}
+} 
