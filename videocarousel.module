@@ -80,7 +80,7 @@ function videocarousel_theme($existing, $type, $theme, $path) {
  */
 function template_preprocess_videocarousel(&$vars) {
   //dsm($vars['view']);
-  drupal_add_js(drupal_get_path('module', 'videocarousel') .'/plop.js');
+  drupal_add_js(drupal_get_path('module', 'videocarousel') .'/videocarousel.js');
   drupal_add_css(drupal_get_path('module', 'videocarousel') .'/videocarousel.css');
 
   $options = $vars['options'];
@@ -110,8 +110,8 @@ function template_preprocess_videocarousel(&$vars) {
   //dsm($vars);
   foreach ($vars['items'] as $item) {
     $i++;
-    $jq_container .= '<span style="display:none" id=carrou_'.$i.' class="all_carrou">'. $tab[$i] .'</span>';
-    $jq_listing .= '<li onclick="javascript:show('.$i.')">'. $item .'</li>';
+    $jq_container .= '<span style="display:none" id="videocarousel-item-'.$i.'-main" class="videocarousel-video-container">'. $tab[$i] .'</span>';
+    $jq_listing .= '<li id="videocarousel-item-'.$i.'" class="videocarousel-item">'. $item .'</li>';
   }
   //$jq_container .= '</div>';
   //$jq_listing .= '</ul>';

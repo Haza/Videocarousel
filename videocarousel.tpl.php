@@ -6,6 +6,4 @@
   <ul id="<?php print $name; ?>" class="jcarousel-skin-<?php print $skin; ?>">
     <?php print $jq_listing; ?>
   </ul>
-
-
 </div>
