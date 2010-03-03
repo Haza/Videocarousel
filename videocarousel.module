@@ -74,8 +74,6 @@ function videocarousel_theme($existing, $type, $theme, $path) {
 /**
  * Process variables for videocarousel.tpl.php.
  *
- *
- *
  */
 function template_preprocess_videocarousel(&$vars) {
   
@@ -127,7 +125,6 @@ function template_preprocess_videocarousel(&$vars) {
   }
 
   $i=0;
-  
   foreach ($vars['items'] as $item) {
     $i++;
     if ($i == 1) {
@@ -145,8 +142,6 @@ function template_preprocess_videocarousel(&$vars) {
     $jq_listing .= '<li id="videocarousel-item-'.$i.'" class="videocarousel-item">'. $item .'</li>';
     $jq_body .= '<h2 id="videocarousel-item-'.$i.'-title" style="'.$display.'" class="videocarousel-item-title">'. $title[$i] .'</h2><div id="videocarousel-item-'.$i.'-body" style="'.$display.'" class="videocarousel-item-body">'. $body[$i] .'</div>';
   }
-  //$jq_container .= '</div>';
-  //$jq_listing .= '</ul>';
   $vars['jq_container'] = $jq_container;
   $vars['jq_listing'] = $jq_listing;
   $vars['jq_body'] = $jq_body;
@@ -155,7 +150,9 @@ function template_preprocess_videocarousel(&$vars) {
 
 
 
-
+/**
+ * Implementation of hook_imagecache_default_presets().
+ */
 
 function videocarousel_imagecache_default_presets() {
   $presets = array();
