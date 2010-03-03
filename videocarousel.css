@@ -1,7 +1,7 @@
 /* 
     Document   : videocarousel
     Created on : 26 févr. 2010, 23:12:40
-    Author     : nicolasmeyer
+    Author     : haza
     Description:
         Purpose of the stylesheet follows.
 */
@@ -10,5 +10,5 @@
    TODO customize this sample style
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
-.videocarousel-container {width: 425px; height: 363px; background-color: red}
+.videocarousel-container {width: 425px; height: 363px;}
 
