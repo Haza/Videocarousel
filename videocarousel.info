@@ -8,4 +8,5 @@ dependencies[] = emfield
 dependencies[] = filefield
 dependencies[] = imagecache
 dependencies[] = imageapi
+dependencies[] = video
 
