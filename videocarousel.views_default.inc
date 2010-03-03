@@ -7,8 +7,8 @@ function videocarousel_views_default_views() {
    * View 'test'
    */
 $view = new view;
-$view->name = 'test';
-$view->description = '';
+$view->name = 'videocarousel';
+$view->description = 'Provide a video carousel view, displaying videos in a carousel';
 $view->tag = '';
 $view->view_php = '';
 $view->base_table = 'node';
@@ -305,7 +305,7 @@ $handler = $view->new_display('block', 'Block', 'block_1');
 $handler->override_option('block_description', '');
 $handler->override_option('block_caching', -1);
 $handler = $view->new_display('page', 'Page', 'page_1');
-$handler->override_option('path', 'carrou');
+$handler->override_option('path', 'videocarousel');
 $handler->override_option('menu', array(
   'type' => 'none',
   'title' => '',
