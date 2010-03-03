@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Embedded Video Field provider file for france24 gallery rotator.
+ * Embedded Video Field provider for distant FLV url.
  */
 
 function videocarousel_emfield_providers($module, $provider = NULL) {
@@ -52,7 +52,6 @@ function theme_videocarousel_view($view, $options = array(), $rows = array()) {
  * Implementation of hook_theme().
  */
 function videocarousel_theme($existing, $type, $theme, $path) {
-
     return array(
     'videocarousel' => array(
       'arguments' => array(
@@ -96,15 +95,13 @@ function template_preprocess_videocarousel(&$vars) {
   $jq_listing = null;
   $jq_body = null;
 
-  $i=0;
   $tab = array();
   $title = array();
   $body = array();
- 
   $video_type = array();
+
   foreach ($vars['view']->style_plugin->rendered_fields as $view_item) {
     $i++;
- 
     if ($view_item['field_emvideo_embed'] == "" && $view_item['field_local_video_fid'] != "" && $view_item['field_illustration_fid'] != "") {
       // here we have a local video file
       $video_type[$i] = "local";
