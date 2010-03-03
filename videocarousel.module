@@ -44,7 +44,6 @@ function theme_videocarousel_view($view, $options = array(), $rows = array()) {
 
   // Use jCarousel to create the carousel.
 
-  //dsm($view);
   return theme('videocarousel', $rows, $options, $skin, $path, 'videocarousel-'. $view->name .'-'. $view->current_display, $view);
 }
 
@@ -103,13 +102,28 @@ function template_preprocess_videocarousel(&$vars) {
   $tab = array();
   $title = array();
   $body = array();
-  //dsm($vars);
-
+ 
+  $video_type = array();
   foreach ($vars['view']->style_plugin->rendered_fields as $view_item) {
     $i++;
-    $tab[$i] = $view_item['field_emvideo_embed'];
-    $title[$i] = $view_item['title'];
-    $body[$i] = $view_item['body'];
+ 
+    if ($view_item['field_emvideo_embed'] == "" && $view_item['field_local_video_fid'] != "" && $view_item['field_illustration_fid'] != "") {
+      // here we have a local video file
+      $video_type[$i] = "local";
+      $filename = array();
+      $filename = explode("/",$view_item['field_illustration_fid']);
+      $filename = array_pop($filename);
+      $video_type[$i] = $filename;
+      $tab[$i] =  swf($view_item['field_local_video_fid'], array('flashvars' => array('image' => $filename)));
+      $title[$i] = $view_item['title'];
+      $body[$i] = $view_item['body'];
+    }
+    else {
+      $video_type[$i] = "embed";
+      $tab[$i] = $view_item['field_emvideo_embed'];
+      $title[$i] = $view_item['title'];
+      $body[$i] = $view_item['body'];
+    }
   }
 
   $i=0;
@@ -122,6 +136,11 @@ function template_preprocess_videocarousel(&$vars) {
     else {
       $display = "display: none;";
     }
+    if ($video_type[$i] != "embed") {
+      $item = "<img src=".imagecache_create_url("videocarousel_item", $video_type[$i])." />";
+
+    }
+
     $jq_container .= '<div style="'.$display.'" id="videocarousel-item-'.$i.'-main" class="videocarousel-video-container">'. $tab[$i] .'</div>';
     $jq_listing .= '<li id="videocarousel-item-'.$i.'" class="videocarousel-item">'. $item .'</li>';
     $jq_body .= '<h2 id="videocarousel-item-'.$i.'-title" style="'.$display.'" class="videocarousel-item-title">'. $title[$i] .'</h2><div id="videocarousel-item-'.$i.'-body" style="'.$display.'" class="videocarousel-item-body">'. $body[$i] .'</div>';
@@ -133,3 +152,26 @@ function template_preprocess_videocarousel(&$vars) {
   $vars['jq_body'] = $jq_body;
        
 } 
+
+
+
+
+
+function videocarousel_imagecache_default_presets() {
+  $presets = array();
+  $presets['videocarousel_item'] = array (
+    'presetname' => 'videocarousel_item',
+    'actions' => array (
+      0 => array (
+        'weight' => '0',
+        'module' => 'imagecache',
+        'action' => 'imagecache_scale_and_crop',
+        'data' => array (
+          'width' => '120',
+          'height' => '90',
+        ),
+      ),
+    ),
+  );
+  return $presets;
+}

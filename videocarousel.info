@@ -5,4 +5,7 @@ core = 6.x
 dependencies[] = views
 dependencies[] = jcarousel
 dependencies[] = emfield
+dependencies[] = filefield
+dependencies[] = imagecache
+dependencies[] = imageapi
 
