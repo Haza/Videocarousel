@@ -110,11 +110,14 @@ function template_preprocess_videocarousel(&$vars) {
     $tab[$i] = $view_item['field_emvideo_embed'];
     $title[$i] = $view_item['title'];
     $body[$i] = $view_item['body'];
+    $video_is_slideshow = false;
+    
+
 
   }
 
   $i=0;
-  //dsm($vars);
+  
   foreach ($vars['items'] as $item) {
     $i++;
     if ($i == 1) {

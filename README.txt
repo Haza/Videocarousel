@@ -1,1 +1,4 @@
-dummy readme :)
+Videocarousel readme
+
+todo : write that :)
+
